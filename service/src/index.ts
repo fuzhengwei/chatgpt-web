@@ -5,6 +5,8 @@ import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth } from './middleware/auth'
 import { limiter } from './middleware/limiter'
 import { isNotEmptyString } from './utils/is'
+import axios from 'axios';
+import { Request, Response } from 'express';
 
 const app = express()
 const router = express.Router()
@@ -70,8 +72,13 @@ router.post('/verify', async (req, res) => {
     if (!token)
       throw new Error('Secret key is empty')
 
-    if (process.env.AUTH_SECRET_KEY !== token)
-      throw new Error('密钥无效 | Secret key is invalid')
+    const response = await axios.get('https://api.bugstack.cn/interfaces/BlogApi.php', {
+      params: { token: token },
+    });
+
+    if (response.data !== 'success') {
+      throw new Error('密钥无效 | Secret key is invalid');
+    }
 
     res.send({ status: 'Success', message: 'Verify successfully', data: null })
   }
