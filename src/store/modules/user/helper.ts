@@ -15,7 +15,7 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: 'https://bugstack.cn/assets/images/story/story-7-01.png',
+      avatar: 'https://bugstack.cn/images/system/avatar.jpg',
       name: '@小傅哥',
       description: '微信：fustack - 指导部署',
     },
